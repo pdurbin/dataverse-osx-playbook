@@ -1,6 +1,8 @@
 # Dataverse Development Playbook
 
-Developers can run this Ansible playbook locally to setup a dataverse instance.
+Developers can run this Ansible playbook locally on a mac to setup a dataverse instance.
+
+Everything is installed and run in the user's space, no root access required.
 
 *See also*:
 
@@ -18,12 +20,12 @@ Developers can run this Ansible playbook locally to setup a dataverse instance.
 
 ## Ansible tag options
 
-  - Remove components: pg-clean, solr-clean, glassfish-clean
-  - Install components: pg-install, solr-install, glassfish-install
-  - Start components: pg-start, solr-start, glassfish-start
-  - Stop components: pg-stop, solr-stop, glassfish-stop
+  - Remove components: _pg-clean_, _solr-clean_, _glassfish-clean_
+  - Install components: _pg-install_, _solr-install_, _glassfish-install_
+  - Start components: _pg-start_, _solr-start_, _glassfish-start_
+  - Stop components: _pg-stop_, _solr-stop_, _glassfish-stop_
 
-### How to launch components withouth using Ansible
+## How to launch components withouth using Ansible
 
   - Start Glassfish: `launchctl start glassfish` or `/usr/local/glassfish4/glassfish/bin/asadmin start-domain domain1`
   - Stop Glassfish: `/usr/local/glassfish4/glassfish/bin/asadmin stop-domain domain1`
