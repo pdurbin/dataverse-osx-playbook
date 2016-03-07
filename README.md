@@ -25,7 +25,9 @@ Everything is installed and run in the user's space, no root access required.
   - Start components: _pg-start_, _solr-start_, _glassfish-start_
   - Stop components: _pg-stop_, _solr-stop_, _glassfish-stop_
 
-## How to launch components withouth using Ansible
+## How to start and stop components without using Ansible
+
+All components can be controlled via launchctl (with the exception of stopping Glassfish)
 
   - Start Glassfish: `launchctl start glassfish` or `/usr/local/glassfish4/glassfish/bin/asadmin start-domain domain1`
   - Stop Glassfish: `/usr/local/glassfish4/glassfish/bin/asadmin stop-domain domain1`
