@@ -1,6 +1,6 @@
 # Dataverse Development Playbook
 
-Developers can run this Ansible playbook locally on a mac to setup a dataverse instance.
+Run this Ansible playbook locally on a mac to setup a development Dataverse instance.
 
 Everything is installed and run in the user's space, no root access required.
 
