@@ -20,6 +20,7 @@ Everything is installed and run in the user's space, no root access required.
 
 ## Ansible tag options
 
+  - Remove all components: _clean_
   - Remove components: _pg-clean_, _solr-clean_, _glassfish-clean_
   - Install components: _pg-install_, _solr-install_, _glassfish-install_
   - Start components: _pg-start_, _solr-start_, _glassfish-start_
@@ -27,16 +28,20 @@ Everything is installed and run in the user's space, no root access required.
 
 ## How to start and stop components without using Ansible
 
-All components can be controlled via launchctl (with the exception of stopping Glassfish)
+All components can be controlled via launchctl
 
-  - Start Glassfish: `launchctl start glassfish` or `/usr/local/glassfish4/glassfish/bin/asadmin start-domain domain1`
-  - Stop Glassfish: `/usr/local/glassfish4/glassfish/bin/asadmin stop-domain domain1`
-  - Start/Stop Solr: `launchctl start solr` and `launchctl stop solr`
-  - Start/Stop Postgresql: `launchctl start postgresql` and `launchctl stop postgresql`
+  - Glassfish: `launchctl start glassfish` and `launchctl stop glassfish`
+  - Solr: `launchctl start solr` and `launchctl stop solr`
+  - Postgresql: `launchctl start postgresql` and `launchctl stop postgresql`
+  
+Glassfish can be controlled via asadmin as well
+
+  - `/usr/local/glassfish4/glassfish/bin/asadmin start-domain domain1`
+  - `/usr/local/glassfish4/glassfish/bin/asadmin stop-domain domain1`
    
-## Applications
+## Applications installed
 
-  - postgresql (latest via Homebrew)
+  - postgresql (9.3 via Homebrew)
   - solr 4.6.0
   - glassfish 4.1
   - jq (latest via Homebrew)
