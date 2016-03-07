@@ -4,6 +4,7 @@
   changed_when: False
   register: glassfish_loaded_result
   tags:
+    - glassfish-multimode
     - glassfish-install
     - glassfish-clean
     - glassfish-start
@@ -11,6 +12,7 @@
     - install
     - clean
     - start
+    - stop
 
 - name: fetch glassfish4
   get_url: url={{gf_dist_url}} dest=/tmp force=no
@@ -73,12 +75,6 @@
     - glassfish-clean
     - clean
 
-- name: run multimode commands
-  command: "{{gf_dir}}/glassfish/bin/asadmin multimode --file files/glassfish-multimode.txt"
-  tags:
-    - glassfish-install
-    - install
-
 - name: deploy war file
   command: "cp -f {{dvn_war}} {{gf_dir}}/glassfish/domains/domain1/autodeploy"
   ignore_errors: yes
@@ -111,18 +107,77 @@
     - glassfish-start
     - start
 
-# note: has no effect, use asadmin instead
+# note: must add --verbose=true to the asadmin command for this to work
+# otherwise: you get a permission error on bsexec for os x < 10.10.x and need to run as sudo
+# see: https://java.net/jira/browse/GLASSFISH-21343
 - name: stop glassfish luanchagent
   shell: launchctl stop glassfish
   when: "'glassfish' in glassfish_loaded_result.stdout"
-  tags: glassfish-stop-unsupported
+  tags: 
+    - glassfish-stop
+    - stop
 
 - name: stop glassfish using asadmin
   command: "{{gf_dir}}/glassfish/bin/asadmin stop-domain domain1"
   ignore_errors: yes
   tags:
-    - glassfish-stop
-    - stop
+    - glassfish-asadmin-stop
+
+# multimode workaround since we can't start/stop a domain within a multimode file for osx 10.10.x
+
+- name: check if glassfish is available in launchctl
+  shell: launchctl list
+  changed_when: False
+  register: gf_launchctl
+  tags:
+    - glassfish-multimode
+    - glassfish-install
+    - install
+
+- name: start multimode session
+  shell: launchctl start glassfish
+  when: "'glassfish' in gf_launchctl.stdout"
+  tags:
+    - glassfish-multimode
+    - glassfish-install
+    - install
+
+# - name: waiting for glassfish to start
+#   shell: curl --head --silent http://localhost:4848/common/index.jsf
+#   register: result
+#   until: result.stdout.find("200 OK") != -1
+#   retries: 12
+#   delay: 5
+#   tags:
+#     - glassfish-multimode
+#     - glassfish-install
+#     - install
+
+- name: waiting for glassfish admin to start
+  wait_for: port=4848 delay=30 timeout=600 state=started
+  when: "'glassfish' in gf_launchctl.stdout"
+  tags:
+    - glassfish-multimode
+    - glassfish-install
+    - install
+
+- name: run multimode commands
+  command: "{{gf_dir}}/glassfish/bin/asadmin multimode --file files/glassfish-multimode.txt"
+  when: "'glassfish' in gf_launchctl.stdout"
+  notify: stop multimode session
+  ignore_errors: yes
+  tags:
+    - glassfish-multimode
+    - glassfish-install
+    - install
+
+- name: stop multimode session
+  shell: launchctl stop glassfish
+  when: "'glassfish' in gf_launchctl.stdout"
+  tags:
+    - glassfish-multimode
+    - glassfish-install
+    - install
 
 - name: install jq
   homebrew: name=jq state=latest

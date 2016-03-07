@@ -31,17 +31,40 @@
     - pg-stop
     - stop
 
-- name: install postgresql
-  homebrew: name=postgresql state=latest
+# latest postgresql brew formulas cause /usr/local/var/postgres to be owned by root
+# see: https://github.com/Homebrew/homebrew/issues/35240
+
+# - name: install postgresql
+#   homebrew: name=postgresql state=latest
+#   tags:
+#     - pg-install
+#     - install
+
+# - name: uninstall postgresql
+#   homebrew: name=postgresql state=absent
+#   tags:
+#     - pg-clean
+#     - clean
+
+- name: install postgresql via homebrew
+  shell: brew install {{pg_brew_formula}}
   tags:
     - pg-install
     - install
 
-- name: uninstall postgresql
-  homebrew: name=postgresql state=absent
+- name: uninstall postgresql via homebrew
+  shell: brew uninstall {{pg_brew_formula}}
+  ignore_errors: yes
   tags:
     - pg-clean
     - clean
+
+- name: initialize postgres db
+  shell: initdb /usr/local/var/postgres
+  ignore_errors: yes
+  tags:
+    - pg-install
+    - install
 
 - name: remove data dir
   file: path={{pg_data_dir}} state=absent
@@ -126,27 +149,27 @@
 
 - name: create glassfish postgres database
   command: createdb {{db_name}}
-  when: "'/usr/local/opt/postgresql/bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
+  when: "'bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
   tags:
     - pg-install
     - install
 
 - name: create dataverse app user
   command: psql {{db_name}} -c "CREATE ROLE {{db_user}} PASSWORD '{{db_pass}}' NOSUPERUSER CREATEDB CREATEROLE INHERIT LOGIN"
-  when: "'/usr/local/opt/postgresql/bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
+  when: "'bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
   tags:
     - pg-install
     - install
 
 - name: flyway migrate
   shell: flyway -user={{db_user}} -password={{db_pass}} -url={{pg_connect_url}} -locations=filesystem:files/sql -X migrate
-  when: "'/usr/local/opt/postgresql/bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
+  when: "'bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
   tags:
     - flyway-migrate
 
 - name: flyway clean
   shell: flyway -user={{db_user}} -password={{db_pass}} -url={{pg_connect_url}} -locations=filesystem:files/sql -X clean
-  when: "'/usr/local/opt/postgresql/bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
+  when: "'bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
   tags:
     - flyway-clean
 

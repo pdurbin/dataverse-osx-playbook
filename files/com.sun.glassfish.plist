@@ -9,6 +9,7 @@
         <array>
             <string>/usr/local/glassfish4/bin/asadmin</string>
             <string>start-domain</string>
+            <string>--verbose=true</string>
             <string>domain1</string>
         </array>
         <key>ServiceDescription</key>

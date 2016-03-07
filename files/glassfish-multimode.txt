@@ -1,4 +1,3 @@
-start-domain domain1
 delete-jvm-options "-XX\:MaxPermSize=192m"
 create-jvm-options "-XX\:MaxPermSize=512m"
 create-jvm-options "-XX\:PermSize=256m"
@@ -24,8 +23,7 @@ delete-connector-connection-pool --cascade=true jms/__defaultConnectionFactory-C
 create-connector-connection-pool --steadypoolsize 1 --maxpoolsize 250 --poolresize 2 --maxwait 60000 --raname jmsra --connectiondefinition javax.jms.QueueConnectionFactory jms/IngestQueueConnectionFactoryPool
 create-connector-resource --poolname jms/IngestQueueConnectionFactoryPool --description "ingest connector resource" jms/IngestQueueConnectionFactory
 create-admin-object --restype javax.jms.Queue --raname jmsra --description "sample administered object" --property Name=DataverseIngest jms/DataverseIngest
-create-javamail-resource --mailhost "localhost" --mailuser "dataversenotify" --fromaddress "do-not-reply@williams-mbp.private.wireless.med.harvard.edu" mail/notifyMailSession
+create-javamail-resource --mailhost "localhost" --mailuser "dataversenotify" --fromaddress "do-not-reply@localhost" mail/notifyMailSession
 create-network-listener --protocol http-listener-1 --listenerport 8009 --jkenabled true jk-connector
 set-log-levels org.glassfish.grizzly.http.server.util.RequestUtils=SEVERE
 set-log-levels javax.org.glassfish.persistence.org.glassfish.persistence.common=SEVERE
-stop-domain domain1

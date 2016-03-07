@@ -2,13 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>KeepAlive</key>
-  <true/>
   <key>Label</key>
   <string>postgresql</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/usr/local/opt/postgresql/bin/postgres</string>
+    <string>/usr/local/opt/postgresql93/bin/postgres</string>
     <string>-D</string>
     <string>/usr/local/var/postgres</string>
     <string>-r</string>
