@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
+"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Label</key>
+        <string>glassfish</string>
+        <key>ProgramArguments</key>
+        <array>
+            <string>/usr/local/glassfish4/bin/asadmin</string>
+            <string>start-domain</string>
+            <string>domain1</string>
+        </array>
+        <key>ServiceDescription</key>
+        <string>Glassfish 4 Server</string>
+        <key>WorkingDirectory</key>
+        <string>/usr/local/glassfish4/bin</string>
+        <key>OnDemand</key>
+        <true/>
+        <key>AbandonProcessGroup</key>
+        <true/>
+    </dict>
+</plist>

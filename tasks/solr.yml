@@ -1,0 +1,93 @@
+---
+- name: check if solr is loaded
+  shell: launchctl list
+  changed_when: False
+  register: solr_loaded_result
+  tags:
+    - solr-install
+    - solr-clean
+    - solr-start
+    - solr-stop
+    - install
+    - clean
+    - start
+    - stop
+
+- name: stop solr luanchagent
+  shell: launchctl stop solr
+  when: "'solr' in solr_loaded_result.stdout"
+  tags:
+    - solr-stop
+    - solr-install
+    - solr-clean
+    - install
+    - clean
+    - stop
+
+- name: download solr
+  get_url: url={{solr_dist_url}} dest=/tmp force=no
+  when: "'solr' not in solr_loaded_result.stdout"
+  tags:
+    - solr-install
+    - install
+
+- name: unpack solr
+  action: shell creates={{solr_dir}} unzip -o /tmp/{{solr_dist}} -d /usr/local
+  when: "'solr' not in solr_loaded_result.stdout"
+  tags:
+    - solr-install
+    - install
+
+- name: update solr schema
+  get_url: url="{{solr_dataverse_schema_url}}"
+        dest={{solr_dir}}/example/solr/collection1/conf/
+        mode=0644
+  when: "'solr' not in solr_loaded_result.stdout"
+  tags:
+    - solr-install
+    - install
+
+- name: copy solr launchagent plist
+  command: "cp files/org.apache.solr.plist {{launch_agents_dir}}/org.apache.solr.plist"
+  tags:
+    - solr-install
+    - install
+
+- name: load solr luanchagent
+  shell: launchctl load -w {{launch_agents_dir}}/org.apache.solr.plist
+  when: "'solr' not in solr_loaded_result.stdout"
+  tags:
+    - solr-install
+    - install
+
+- name: unload solr luanchagent
+  shell: launchctl unload -w {{launch_agents_dir}}/org.apache.solr.plist
+  when: "'solr' in solr_loaded_result.stdout"
+  tags:
+    - solr-clean
+    - clean
+
+- name: start solr luanchagent
+  shell: launchctl start solr
+  when: "'solr' in solr_loaded_result.stdout"
+  tags:
+    - solr-start
+    - start
+
+- name: remove solr zip distribution
+  file: path=/tmp/{{solr_dist}} state=absent
+  tags:
+    - solr-install
+    - install
+
+- name: remove solr launchagent
+  file: path={{launch_agents_dir}}/org.apache.solr.plist state=absent
+  tags:
+    - solr-clean
+    - clean
+
+- name: remove solr files
+  file: path={{solr_dir}} state=absent
+  tags:
+    - solr-clean
+    - clean

@@ -1,0 +1,159 @@
+---
+- name: check if postgresql is loaded
+  shell: launchctl list
+  changed_when: False
+  register: postgresql_loaded_result
+  tags:
+    - pg-install
+    - pg-clean
+    - pg-start
+    - pg-stop
+    - install
+    - clean
+    - start
+    - stop
+
+- name: unload postgresql launchagent
+  shell: launchctl unload -w {{launch_agents_dir}}/postgresql.plist
+  when: "'postgresql' in postgresql_loaded_result.stdout"
+  ignore_errors: yes
+  tags:
+    - pg-install
+    - pg-clean
+    - install
+    - clean
+
+- name: stop postgresql luanchagent
+  shell: launchctl stop postgresql
+  when: "'postgresql' in postgresql_loaded_result.stdout"
+  ignore_errors: yes
+  tags:
+    - pg-stop
+    - stop
+
+- name: install postgresql
+  homebrew: name=postgresql state=latest
+  tags:
+    - pg-install
+    - install
+
+- name: uninstall postgresql
+  homebrew: name=postgresql state=absent
+  tags:
+    - pg-clean
+    - clean
+
+- name: remove data dir
+  file: path={{pg_data_dir}} state=absent
+  ignore_errors: yes
+  tags:
+    - pg-clean
+    - clean
+
+- name: install flyway
+  homebrew: name=flyway state=latest
+  ignore_errors: yes
+  tags:
+    - flyway-install
+
+- name: uninstall flyway
+  homebrew: name=flyway state=absent
+  ignore_errors: yes
+  tags:
+    - flyway-uninstall
+
+- name: copy postgresql launchagent plist
+  command: "cp files/postgresql.plist {{launch_agents_dir}}/postgresql.plist"
+  tags:
+    - pg-install
+    - install
+
+- name: delete old pg_hba.conf
+  file: path={{pg_data_dir}}/pg_hba.conf state=absent
+  tags:
+    - pg-install
+    - install
+
+- name: copy new pg_hba.conf
+  copy: src=files/pg_hba.conf dest={{pg_data_dir}}/pg_hba.conf
+  tags:
+    - pg-install
+    - install
+
+- name: delete old postgresql.conf
+  file: path={{pg_data_dir}}/postgresql.conf state=absent
+  tags:
+    - pg-install
+    - install
+
+- name: copy new postgresql.conf
+  copy: src=files/postgresql.conf dest={{pg_data_dir}}/postgresql.conf
+  tags:
+    - pg-install
+    - install
+
+- name: load postgresql launchagent
+  shell: launchctl load -w {{launch_agents_dir}}/postgresql.plist
+  when: "'postgresql' not in postgresql_loaded_result.stdout"
+  notify: create glassfish postgres database
+  tags:
+    - pg-install
+    - install
+
+- name: start postgresql luanchagent
+  shell: launchctl start postgresql
+  tags:
+    - pg-start
+    - pg-install
+    - install
+    - start
+
+- name: remove postgresql launchagent
+  file: path={{launch_agents_dir}}/postgresql.plist state=absent
+  tags:
+    - pg-clean
+    - clean
+
+- name: check if postgresql is running
+  shell: ps auxwww | grep postgres
+  changed_when: False
+  register: running_result
+  tags:
+    - flyway-migrate
+    - flyway-clean
+    - pg-install
+    - install
+
+- name: create glassfish postgres database
+  command: createdb {{db_name}}
+  when: "'/usr/local/opt/postgresql/bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
+  tags:
+    - pg-install
+    - install
+
+- name: create dataverse app user
+  command: psql {{db_name}} -c "CREATE ROLE {{db_user}} PASSWORD '{{db_pass}}' NOSUPERUSER CREATEDB CREATEROLE INHERIT LOGIN"
+  when: "'/usr/local/opt/postgresql/bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
+  tags:
+    - pg-install
+    - install
+
+- name: flyway migrate
+  shell: flyway -user={{db_user}} -password={{db_pass}} -url={{pg_connect_url}} -locations=filesystem:files/sql -X migrate
+  when: "'/usr/local/opt/postgresql/bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
+  tags:
+    - flyway-migrate
+
+- name: flyway clean
+  shell: flyway -user={{db_user}} -password={{db_pass}} -url={{pg_connect_url}} -locations=filesystem:files/sql -X clean
+  when: "'/usr/local/opt/postgresql/bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
+  tags:
+    - flyway-clean
+
+- name: load pg_dump file
+  command: psql -U {{db_user}} -d {{db_name}} -a -f files/sql/{{pg_dump_file}}
+  ignore_errors: yes
+  tags:
+    - pg-init
+    - pg-install
+    - install

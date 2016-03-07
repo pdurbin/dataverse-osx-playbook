@@ -1,0 +1,31 @@
+---
+
+launch_agents_dir: ~/Library/LaunchAgents
+
+# postgres
+db_user: dvnapp
+db_pass: secret
+db_name: dvndb
+pg_data_dir: /usr/local/var/postgres
+pg_driver_url: http://jdbc.postgresql.org/download/postgresql-9.1-902.jdbc4.jar
+pg_connect_url: jdbc:postgresql://localhost:5432/dvndb
+pg_dump_file: V4.2.4__Dataverse.sql
+
+#solr
+solr_dir: /usr/local/solr-4.6.0
+solr_dist_url: https://archive.apache.org/dist/lucene/solr/4.6.0/solr-4.6.0.zip
+solr_dist: solr-4.6.0.zip
+solr_dataverse_schema_url: https://github.com/IQSS/dataverse/releases/download/v4.2.2/schema.xml
+
+# glassfish
+gf_dir: /usr/local/glassfish4
+gf_dist_url: http://dlc-cdn.sun.com/glassfish/4.1/release/glassfish-4.1.zip
+gf_dist: glassfish-4.1.zip
+# fetch the 4.1 nightly since it addresses the "launchctl bsexec" admin privileges issue on OSX 10.10.x
+# gf_dist_url: http://dlc-cdn.sun.com/glassfish/4.1/nightly/latest-glassfish.zip
+# gf_dist: latest-glassfish.zip
+gf_weld_url: http://central.maven.org/maven2/org/jboss/weld/weld-osgi-bundle/2.2.10.SP1/weld-osgi-bundle-2.2.10.SP1-glassfish4.jar
+
+# jhove
+jhove_conf_url: https://raw.githubusercontent.com/IQSS/dataverse/develop/conf/jhove/jhove.conf
+jhove_xsd_url: https://raw.githubusercontent.com/IQSS/dataverse/develop/conf/jhove/jhoveConfig.xsd

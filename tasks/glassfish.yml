@@ -1,0 +1,131 @@
+---
+- name: check if glassfish is loaded
+  shell: launchctl list
+  changed_when: False
+  register: glassfish_loaded_result
+  tags:
+    - glassfish-install
+    - glassfish-clean
+    - glassfish-start
+    - glassfish-stop
+    - install
+    - clean
+    - start
+
+- name: fetch glassfish4
+  get_url: url={{gf_dist_url}} dest=/tmp force=no
+  tags:
+    - glassfish-install
+    - install
+
+- name: unpack glassfish
+  action: shell creates={{gf_dir}} unzip -o /tmp/{{gf_dist}} -d /usr/local
+  tags:
+    - glassfish-install
+    - install
+
+- name: ensure dataverse_gf_root exists
+  file: path={{gf_dir}} state=directory mode=0755
+  tags:
+    - glassfish-install
+    - install
+
+- name: remove install files
+  action: file path=/tmp/{{gf_dist}} state=absent
+  tags:
+    - glassfish-install
+    - install
+
+- name: delete old weld
+  file: path={{gf_dir}}/glassfish/modules/weld-osgi-bundle.jar state=absent
+  tags:
+    - glassfish-install
+    - install
+
+- name: fetch new weld
+  get_url: url={{gf_weld_url}}
+    dest={{gf_dir}}/glassfish/modules
+  tags:
+    - glassfish-install
+    - install
+
+- name: fetch postgres driver
+  get_url: url={{pg_driver_url}} dest={{gf_dir}}/glassfish/lib force=no
+  tags:
+    - glassfish-install
+    - install
+
+- name: fetch jhove config file
+  get_url: url={{jhove_conf_url}} dest={{gf_dir}}/glassfish/domains/domain1/config force=no
+  tags:
+    - glassfish-install
+    - install
+
+- name: fetch jhove schema file
+  get_url: url={{jhove_xsd_url}} dest={{gf_dir}}/glassfish/domains/domain1/config force=no
+  tags:
+    - glassfish-install
+    - install
+
+- name: remove glassfish
+  file: path={{gf_dir}} state=absent
+  tags:
+    - glassfish-clean
+    - clean
+
+- name: run multimode commands
+  command: "{{gf_dir}}/glassfish/bin/asadmin multimode --file files/glassfish-multimode.txt"
+  tags:
+    - glassfish-install
+    - install
+
+- name: deploy war file
+  command: "cp -f {{dvn_war}} {{gf_dir}}/glassfish/domains/domain1/autodeploy"
+  ignore_errors: yes
+  tags: deploy-war
+
+- name: copy glassfish launchagent plist
+  command: "cp files/com.sun.glassfish.plist {{launch_agents_dir}}/com.sun.glassfish.plist"
+  tags:
+    - glassfish-install
+    - install
+
+- name: load glassfish luanchagent
+  shell: launchctl load -w {{launch_agents_dir}}/com.sun.glassfish.plist
+  when: "'glassfish' not in glassfish_loaded_result.stdout"
+  tags:
+    - glassfish-install
+    - install
+
+- name: unload glassfish luanchagent
+  shell: launchctl unload -w {{launch_agents_dir}}/com.sun.glassfish.plist
+  when: "'glassfish' in glassfish_loaded_result.stdout"
+  tags:
+    - glassfish-clean
+    - clean
+
+- name: start glassfish luanchagent
+  shell: launchctl start glassfish
+  when: "'glassfish' in glassfish_loaded_result.stdout"
+  tags:
+    - glassfish-start
+    - start
+
+# note: has no effect, use asadmin instead
+- name: stop glassfish luanchagent
+  shell: launchctl stop glassfish
+  when: "'glassfish' in glassfish_loaded_result.stdout"
+  tags: glassfish-stop-unsupported
+
+- name: stop glassfish using asadmin
+  command: "{{gf_dir}}/glassfish/bin/asadmin stop-domain domain1"
+  ignore_errors: yes
+  tags:
+    - glassfish-stop
+    - stop
+
+- name: install jq
+  homebrew: name=jq state=latest
+  tags:
+    - glassfish-install
+    - install
