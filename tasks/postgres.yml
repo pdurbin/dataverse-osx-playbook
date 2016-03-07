@@ -4,6 +4,7 @@
   changed_when: False
   register: postgresql_loaded_result
   tags:
+    - pg-init
     - pg-install
     - pg-clean
     - pg-start
@@ -28,6 +29,7 @@
   when: "'postgresql' in postgresql_loaded_result.stdout"
   ignore_errors: yes
   tags:
+    - pg-init
     - pg-stop
     - stop
 
@@ -59,19 +61,21 @@
     - pg-clean
     - clean
 
-- name: initialize postgres db
-  shell: initdb /usr/local/var/postgres
-  ignore_errors: yes
-  tags:
-    - pg-install
-    - install
-
 - name: remove data dir
   file: path={{pg_data_dir}} state=absent
   ignore_errors: yes
   tags:
+    - pg-init
     - pg-clean
     - clean
+
+- name: initialize postgres db
+  shell: initdb {{pg_data_dir}}
+  ignore_errors: yes
+  tags:
+    - pg-init
+    - pg-install
+    - install
 
 - name: install flyway
   homebrew: name=flyway state=latest
@@ -94,24 +98,28 @@
 - name: delete old pg_hba.conf
   file: path={{pg_data_dir}}/pg_hba.conf state=absent
   tags:
+    - pg-init
     - pg-install
     - install
 
 - name: copy new pg_hba.conf
   copy: src=files/pg_hba.conf dest={{pg_data_dir}}/pg_hba.conf
   tags:
+    - pg-init
     - pg-install
     - install
 
 - name: delete old postgresql.conf
   file: path={{pg_data_dir}}/postgresql.conf state=absent
   tags:
+    - pg-init
     - pg-install
     - install
 
 - name: copy new postgresql.conf
   copy: src=files/postgresql.conf dest={{pg_data_dir}}/postgresql.conf
   tags:
+    - pg-init
     - pg-install
     - install
 
@@ -126,6 +134,7 @@
 - name: start postgresql luanchagent
   shell: launchctl start postgresql
   tags:
+    - pg-init
     - pg-start
     - pg-install
     - install
@@ -142,6 +151,7 @@
   changed_when: False
   register: running_result
   tags:
+    - pg-init
     - flyway-migrate
     - flyway-clean
     - pg-install
@@ -151,6 +161,7 @@
   command: createdb {{db_name}}
   when: "'bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
   tags:
+    - pg-init
     - pg-install
     - install
 
@@ -158,6 +169,7 @@
   command: psql {{db_name}} -c "CREATE ROLE {{db_user}} PASSWORD '{{db_pass}}' NOSUPERUSER CREATEDB CREATEROLE INHERIT LOGIN"
   when: "'bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
   tags:
+    - pg-init
     - pg-install
     - install
 
@@ -175,6 +187,7 @@
 
 - name: load pg_dump file
   command: psql -U {{db_user}} -d {{db_name}} -a -f files/sql/{{pg_dump_file}}
+  when: "'bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
   ignore_errors: yes
   tags:
     - pg-init
