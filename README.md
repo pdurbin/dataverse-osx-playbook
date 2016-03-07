@@ -1,6 +1,6 @@
-# Dataverse OSX Development Ansible Playbook
+# Dataverse OSX Development Playbook
 
-Developers can run this playbook locally to setup a dataverse instance.
+Developers can run this Ansible playbook locally to setup a dataverse instance.
 
 *See also*:
 
