@@ -7,7 +7,7 @@ delete-jdbc-connection-pool --cascade=true dvnDbPool
 create-jdbc-connection-pool --restype javax.sql.DataSource --datasourceclassname org.postgresql.ds.PGPoolingDataSource --property create=true:User=dvnapp:PortNumber=5432:databaseName=dvndb:password=secret:ServerName=localhost dvnDbPool
 create-jdbc-resource --connectionpoolid dvnDbPool jdbc/VDCNetDS
 set configs.config.server-config.ejb-container.ejb-timer-service.timer-datasource=jdbc/VDCNetDS
-create-jvm-options -Ddataverse.files.directory=~/dataverse/files
+create-jvm-options -Ddataverse.files.directory=/usr/local/glassfish4/glassfish/domains/domain1/files
 create-jvm-options -Ddataverse.rserve.host=localhost
 create-jvm-options -Ddataverse.rserve.port=6311
 create-jvm-options -Ddataverse.rserve.user=rserve
