@@ -9,12 +9,15 @@ This playbook provides a way of setting Dataverse up in "development mode" -- ma
 ## Installation
 
   1. Clone this repository to your local drive.
-  2. [Install Ansible](http://docs.ansible.com/intro_installation.html).
+  2. [Install Ansible](http://docs.ansible.com/intro_installation.html)<sup>&dagger;</sup>.
   3. [Install Homebrew] (http://brew.sh/).
   4. Run `ansible-playbook main.yml --tags "install"` from the same directory as this README file.
   5. Run `ansible-playbook main.yml --tags "start"` to launch postgresql, solr and glassfish.
   6. Deploy your Dataverse war file.
   7. Login as dataverseAdmin and publish the root dataverse.
+   
+  
+&dagger; _Ansible install docs say: "Readers that use virtualenv can also install Ansible under virtualenv, though we’d recommend to not worry about it and just install Ansible globally. Do not use easy_install to install ansible directly."_
 
 ## Ansible tag options
 
