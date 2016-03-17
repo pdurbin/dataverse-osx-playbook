@@ -27,3 +27,4 @@ create-javamail-resource --mailhost "localhost" --mailuser "dataversenotify" --f
 create-network-listener --protocol http-listener-1 --listenerport 8009 --jkenabled true jk-connector
 set-log-levels org.glassfish.grizzly.http.server.util.RequestUtils=SEVERE
 set-log-levels javax.org.glassfish.persistence.org.glassfish.persistence.common=SEVERE
+set-log-levels java.util.logging.ConsoleHandler=FINE

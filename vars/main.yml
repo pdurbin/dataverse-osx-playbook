@@ -9,7 +9,7 @@ db_name: dvndb
 pg_data_dir: /usr/local/var/postgres
 pg_driver_url: http://jdbc.postgresql.org/download/postgresql-9.1-902.jdbc4.jar
 pg_connect_url: jdbc:postgresql://localhost:5432/dvndb
-pg_dump_file: V4.2.4__Dataverse.sql
+pg_dump_file: V4.3__Dataverse.sql
 pg_brew_formula: homebrew/versions/postgresql93
 
 #solr
