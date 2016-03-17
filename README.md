@@ -2,11 +2,9 @@
 
 Run this Ansible playbook locally on a mac to setup a development Dataverse instance.
 
-Everything is installed and run in the user's space, no root access required.
+Everything is installed and run in the user's space, no root access required. The idea here is to get the project running locally, no matter what it takes. 
 
-The idea here is to "get the project running locally, no matter what it takes." 
-
-This playbook provides a way of setting Dataverse up in "development mode": making code changes and seeing them work, or not. This is different from the "bundle everything up for distribution" mode. If you are interested in using Ansible for "distribution mode" see: [Ansible role for installing and maintaining Dataverse] (https://github.com/IQSS/dataverse-ansible)
+This playbook provides a way of setting Dataverse up in "development mode" -- making code changes and seeing them work, or not. This is different from the "bundle everything up for deployment mode." If you are interested in using Ansible for regular deployment, see: [Ansible role for installing and maintaining Dataverse] (https://github.com/IQSS/dataverse-ansible)
 
 ## Installation
 
