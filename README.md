@@ -1,16 +1,21 @@
 # Dataverse Development Playbook
 
-Run this Ansible playbook locally on a mac to setup a development Dataverse instance.
+Run this Ansible playbook locally on a mac to setup a development Dataverse instance. The idea here is to get the project running locally, no matter what it takes.
 
-Everything is installed and run in the user's space, no root access required. The idea here is to get the project running locally, no matter what it takes. 
+After Dataverse is installed, it doesn't require root access to run locally. However, you will need sudo for a few of the installation steps below.  
 
 This playbook provides a way of setting Dataverse up in "development mode" -- making code changes and seeing them work, or not. This is different from the "bundle everything up for deployment mode." If you are interested in using Ansible for regular deployment, see: [Ansible role for installing and maintaining Dataverse] (https://github.com/IQSS/dataverse-ansible)
 
+## Assumptions
+
+  1. You have the [Java 1.8 JDK] (https://docs.oracle.com/javase/8/docs/technotes/guides/install/mac_jdk.html) installed
+  2. You have git installed
+  
 ## Installation
 
   1. Clone this repository to your local drive.
   2. [Install Ansible](http://docs.ansible.com/intro_installation.html)<sup>&dagger;</sup>.
-  3. [Install Homebrew] (http://brew.sh/).
+  3. [Install Homebrew] (http://brew.sh/). (requires sudo)
   4. Run `ansible-playbook main.yml --tags "install"` from the same directory as this README file.
   5. Run `ansible-playbook main.yml --tags "start"` to launch postgresql, solr and glassfish.
   6. Deploy your Dataverse war file.
