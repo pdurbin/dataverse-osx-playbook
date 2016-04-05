@@ -1311,6 +1311,41 @@ ALTER TABLE public.defaultvalueset_id_seq OWNER TO dvnapp;
 
 ALTER SEQUENCE defaultvalueset_id_seq OWNED BY defaultvalueset.id;
 
+--
+-- Name: doidataciteregistercache; Type: TABLE; Schema: public; Owner: dvnapp; Tablespace:
+--
+
+CREATE TABLE doidataciteregistercache (
+    id integer NOT NULL,
+    doi character varying(255),
+    status character varying(255),
+    url character varying(255),
+    xml text
+);
+
+
+ALTER TABLE public.doidataciteregistercache OWNER TO dvnapp;
+
+--
+-- Name: doidataciteregistercache_id_seq; Type: SEQUENCE; Schema: public; Owner: dvnapp
+--
+
+CREATE SEQUENCE doidataciteregistercache_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.doidataciteregistercache_id_seq OWNER TO dvnapp;
+
+--
+-- Name: doidataciteregistercache_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dvnapp
+--
+
+ALTER SEQUENCE doidataciteregistercache_id_seq OWNED BY doidataciteregistercache.id;
+
 
 --
 -- Name: dvobject; Type: TABLE; Schema: public; Owner: dvnapp; Tablespace: 
