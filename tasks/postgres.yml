@@ -4,6 +4,7 @@
   changed_when: False
   register: postgresql_loaded_result
   tags:
+    - pg-delete-all
     - pg-init
     - pg-install
     - pg-clean
@@ -151,6 +152,7 @@
   changed_when: False
   register: running_result
   tags:
+    - pg-delete-all
     - pg-init
     - flyway-migrate
     - flyway-clean
@@ -193,3 +195,10 @@
     - pg-init
     - pg-install
     - install
+
+- name: drop all tables
+  command: psql {{db_name}} -c "drop schema public cascade"
+  when: "'bin/postgres -D /usr/local/var/postgres' in running_result.stdout"
+  ignore_errors: yes
+  tags:
+    - pg-delete-all

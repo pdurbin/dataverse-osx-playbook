@@ -91,3 +91,10 @@
   tags:
     - solr-clean
     - clean
+
+- name: delete all from solr
+  shell: curl http://localhost:8983/solr/update?stream.body=\<delete\>\<query\>*:*\</query\>\</delete\>\&commit=true
+  tags:
+     - solr-delete-all
+
+
