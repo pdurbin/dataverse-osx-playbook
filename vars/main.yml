@@ -16,7 +16,7 @@ pg_brew_formula: homebrew/versions/postgresql93
 solr_dir: /usr/local/solr-4.6.0
 solr_dist_url: https://archive.apache.org/dist/lucene/solr/4.6.0/solr-4.6.0.zip
 solr_dist: solr-4.6.0.zip
-solr_dataverse_schema_url: https://github.com/IQSS/dataverse/releases/download/v4.2.2/schema.xml
+solr_dataverse_schema_url: https://github.com/IQSS/dataverse/releases/download/v4.3.1/schema.xml
 
 # glassfish
 gf_dir: /usr/local/glassfish4
