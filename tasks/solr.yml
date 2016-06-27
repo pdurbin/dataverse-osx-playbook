@@ -47,6 +47,18 @@
     - solr-install
     - install
 
+- name: delete old jetty.xml
+  file: path={{solr_dir}}/example/etc/jetty.xml state=absent
+  tags:
+    - solr-install
+    - install
+
+- name: copy new jetty.xml
+  copy: src=files/jetty.xml dest={{solr_dir}}/example/etc/jetty.xml
+  tags:
+    - solr-install
+    - install
+
 - name: copy solr launchagent plist
   command: "cp files/org.apache.solr.plist {{launch_agents_dir}}/org.apache.solr.plist"
   tags:
