@@ -1,0 +1,344 @@
+Around 2016-03-17 on 10.11.5 (or so) I executed the steps in the readme in a different order (below) than what's in the README.
+
+Philips-MacBook-Pro:~ pdurbin$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+==> This script will install:
+/usr/local/bin/brew
+/usr/local/Library/...
+/usr/local/share/man/man1/brew.1
+==> The following directories will be made group writable:
+/usr/local/.
+/usr/local/bin
+==> The following directories will have their owner set to pdurbin:
+/usr/local/.
+/usr/local/bin
+==> The following directories will have their group set to admin:
+/usr/local/.
+/usr/local/bin
+
+Press RETURN to continue or any other key to abort
+==> /usr/bin/sudo /bin/chmod g+rwx /usr/local/. /usr/local/bin
+Password:
+==> /usr/bin/sudo /usr/sbin/chown pdurbin /usr/local/. /usr/local/bin
+==> /usr/bin/sudo /usr/bin/chgrp admin /usr/local/. /usr/local/bin
+==> /usr/bin/sudo /bin/mkdir /Library/Caches/Homebrew
+==> /usr/bin/sudo /bin/chmod g+rwx /Library/Caches/Homebrew
+==> /usr/bin/sudo /usr/sbin/chown pdurbin /Library/Caches/Homebrew
+==> Downloading and installing Homebrew...
+remote: Counting objects: 4073, done.
+remote: Compressing objects: 100% (3921/3921), done.
+remote: Total 4073 (delta 34), reused 1808 (delta 19), pack-reused 0
+Receiving objects: 100% (4073/4073), 3.34 MiB | 0 bytes/s, done.
+Resolving deltas: 100% (34/34), done.
+From https://github.com/Homebrew/homebrew
+ * [new branch]      master     -> origin/master
+HEAD is now at a2b9ace gocr: audit nits
+==> Installation successful!
+==> Next steps
+Run `brew help` to get started
+Philips-MacBook-Pro:~ pdurbin$ 
+
+
+
+Last login: Thu Mar 17 11:15:20 on ttys004
+Philips-MacBook-Pro:~ pdurbin$ brew install python
+==> Installing dependencies for python: readline, sqlite, gdbm, openssl
+==> Installing python dependency: readline
+==> Downloading https://homebrew.bintray.com/bottles/readline-6.3.8.el_capitan.b
+######################################################################## 100.0%
+==> Pouring readline-6.3.8.el_capitan.bottle.tar.gz
+==> Caveats
+This formula is keg-only, which means it was not symlinked into /usr/local.
+
+OS X provides the BSD libedit library, which shadows libreadline.
+In order to prevent conflicts when programs look for libreadline we are
+defaulting this GNU Readline installation to keg-only.
+
+
+Generally there are no consequences of this for you. If you build your
+own software and it requires this formula, you'll need to add to your
+build variables:
+
+    LDFLAGS:  -L/usr/local/opt/readline/lib
+    CPPFLAGS: -I/usr/local/opt/readline/include
+
+==> Summary
+🍺  /usr/local/Cellar/readline/6.3.8: 40 files, 2.0M
+==> Installing python dependency: sqlite
+==> Downloading https://homebrew.bintray.com/bottles/sqlite-3.11.0_1.el_capitan.
+######################################################################## 100.0%
+==> Pouring sqlite-3.11.0_1.el_capitan.bottle.tar.gz
+==> Caveats
+This formula is keg-only, which means it was not symlinked into /usr/local.
+
+OS X provides an older sqlite3.
+
+Generally there are no consequences of this for you. If you build your
+own software and it requires this formula, you'll need to add to your
+build variables:
+
+    LDFLAGS:  -L/usr/local/opt/sqlite/lib
+    CPPFLAGS: -I/usr/local/opt/sqlite/include
+
+==> Summary
+🍺  /usr/local/Cellar/sqlite/3.11.0_1: 9 files, 2.8M
+==> Installing python dependency: gdbm
+==> Downloading https://homebrew.bintray.com/bottles/gdbm-1.11.el_capitan.bottle
+######################################################################## 100.0%
+==> Pouring gdbm-1.11.el_capitan.bottle.2.tar.gz
+🍺  /usr/local/Cellar/gdbm/1.11: 17 files, 485.2K
+==> Installing python dependency: openssl
+==> Downloading https://homebrew.bintray.com/bottles/openssl-1.0.2g.el_capitan.b
+######################################################################## 100.0%
+==> Pouring openssl-1.0.2g.el_capitan.bottle.tar.gz
+==> Caveats
+A CA file has been bootstrapped using certificates from the system
+keychain. To add additional certificates, place .pem files in
+  /usr/local/etc/openssl/certs
+
+and run
+  /usr/local/opt/openssl/bin/c_rehash
+
+This formula is keg-only, which means it was not symlinked into /usr/local.
+
+Apple has deprecated use of OpenSSL in favor of its own TLS and crypto libraries
+
+Generally there are no consequences of this for you. If you build your
+own software and it requires this formula, you'll need to add to your
+build variables:
+
+    LDFLAGS:  -L/usr/local/opt/openssl/lib
+    CPPFLAGS: -I/usr/local/opt/openssl/include
+
+==> Summary
+🍺  /usr/local/Cellar/openssl/1.0.2g: 466 files, 11.9M
+==> Installing python
+==> Downloading https://homebrew.bintray.com/bottles/python-2.7.11.el_capitan.bo
+######################################################################## 100.0%
+==> Pouring python-2.7.11.el_capitan.bottle.2.tar.gz
+==> /usr/local/Cellar/python/2.7.11/bin/python -s setup.py --no-user-cfg install
+==> /usr/local/Cellar/python/2.7.11/bin/python -s setup.py --no-user-cfg install
+==> /usr/local/Cellar/python/2.7.11/bin/python -s setup.py --no-user-cfg install
+==> Caveats
+Pip and setuptools have been installed. To update them
+  pip install --upgrade pip setuptools
+
+You can install Python packages with
+  pip install <package>
+
+They will install into the site-package directory
+  /usr/local/lib/python2.7/site-packages
+
+See: https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/Homebrew-and-Python.md
+
+.app bundles were installed.
+Run `brew linkapps python` to symlink these to /Applications.
+==> Summary
+🍺  /usr/local/Cellar/python/2.7.11: 4,886 files, 66.0M
+Philips-MacBook-Pro:~ pdurbin$ 
+
+
+Last login: Thu Mar 17 11:16:56 on ttys007
+Philips-MacBook-Pro:~ pdurbin$ pip install virtualenvwrapper
+Collecting virtualenvwrapper
+  Downloading virtualenvwrapper-4.7.1-py2.py3-none-any.whl
+Collecting virtualenv (from virtualenvwrapper)
+  Downloading virtualenv-15.0.0-py2.py3-none-any.whl (1.8MB)
+    100% |████████████████████████████████| 1.8MB 341kB/s 
+Collecting virtualenv-clone (from virtualenvwrapper)
+  Downloading virtualenv-clone-0.2.6.tar.gz
+Collecting stevedore (from virtualenvwrapper)
+  Downloading stevedore-1.12.0-py2.py3-none-any.whl
+Collecting pbr>=1.6 (from stevedore->virtualenvwrapper)
+  Downloading pbr-1.8.1-py2.py3-none-any.whl (89kB)
+    100% |████████████████████████████████| 90kB 4.5MB/s 
+Collecting six>=1.9.0 (from stevedore->virtualenvwrapper)
+  Downloading six-1.10.0-py2.py3-none-any.whl
+Building wheels for collected packages: virtualenv-clone
+  Running setup.py bdist_wheel for virtualenv-clone ... done
+  Stored in directory: /Users/pdurbin/Library/Caches/pip/wheels/0b/86/b4/295afae21c0d76d0465dc41b2457424aa5b6c7a049c14df1e9
+Successfully built virtualenv-clone
+Installing collected packages: virtualenv, virtualenv-clone, pbr, six, stevedore, virtualenvwrapper
+Successfully installed pbr-1.8.1 six-1.10.0 stevedore-1.12.0 virtualenv-15.0.0 virtualenv-clone-0.2.6 virtualenvwrapper-4.7.1
+You are using pip version 8.0.2, however version 8.1.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+Philips-MacBook-Pro:~ pdurbin$ 
+
+
+Last login: Thu Mar 17 11:18:32 on ttys010
+Philips-MacBook-Pro:~ pdurbin$ source /usr/local/bin/virtualenvwrapper.sh
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/premkproject
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/postmkproject
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/initialize
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/premkvirtualenv
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/postmkvirtualenv
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/prermvirtualenv
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/postrmvirtualenv
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/predeactivate
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/postdeactivate
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/preactivate
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/postactivate
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/get_env_details
+Philips-MacBook-Pro:~ pdurbin$ 
+
+lips-MacBook-Pro:~ pdurbin$ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bash_profile 
+Philips-MacBook-Pro:~ pdurbin$ 
+
+
+Last login: Thu Mar 17 11:21:24 on ttys015
+Philips-MacBook-Pro:~ pdurbin$ mkvirtualenv ansible
+New python executable in /Users/pdurbin/.virtualenvs/ansible/bin/python2.7
+Also creating executable in /Users/pdurbin/.virtualenvs/ansible/bin/python
+Installing setuptools, pip, wheel...done.
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/ansible/bin/predeactivate
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/ansible/bin/postdeactivate
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/ansible/bin/preactivate
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/ansible/bin/postactivate
+virtualenvwrapper.user_scripts creating /Users/pdurbin/.virtualenvs/ansible/bin/get_env_details
+(ansible) Philips-MacBook-Pro:~ pdurbin$ 
+
+Last login: Thu Mar 17 11:22:07 on ttys017
+Philips-MacBook-Pro:~ pdurbin$ workon ansible
+(ansible) Philips-MacBook-Pro:~ pdurbin$ pip install ansible
+Collecting ansible
+  Downloading ansible-2.0.1.0.tar.gz (1.5MB)
+    100% |████████████████████████████████| 1.5MB 916kB/s 
+Collecting paramiko (from ansible)
+  Downloading paramiko-1.16.0-py2.py3-none-any.whl (169kB)
+    100% |████████████████████████████████| 174kB 5.0MB/s 
+Collecting jinja2 (from ansible)
+  Downloading Jinja2-2.8-py2.py3-none-any.whl (263kB)
+    100% |████████████████████████████████| 266kB 4.4MB/s 
+Collecting PyYAML (from ansible)
+  Downloading PyYAML-3.11.tar.gz (248kB)
+    100% |████████████████████████████████| 256kB 4.2MB/s 
+Requirement already satisfied (use --upgrade to upgrade): setuptools in ./.virtualenvs/ansible/lib/python2.7/site-packages (from ansible)
+Collecting pycrypto>=2.6 (from ansible)
+  Downloading pycrypto-2.6.1.tar.gz (446kB)
+    100% |████████████████████████████████| 450kB 3.2MB/s 
+Collecting ecdsa>=0.11 (from paramiko->ansible)
+  Downloading ecdsa-0.13-py2.py3-none-any.whl (86kB)
+    100% |████████████████████████████████| 92kB 5.5MB/s 
+Collecting MarkupSafe (from jinja2->ansible)
+  Downloading MarkupSafe-0.23.tar.gz
+Building wheels for collected packages: ansible, PyYAML, pycrypto, MarkupSafe
+  Running setup.py bdist_wheel for ansible ... done
+  Stored in directory: /Users/pdurbin/Library/Caches/pip/wheels/77/14/9c/01ef7d825ae1559a7e2b30061ae58b3ac03fab9aac6ade8693
+  Running setup.py bdist_wheel for PyYAML ... done
+  Stored in directory: /Users/pdurbin/Library/Caches/pip/wheels/fa/db/f6/dee55793d344f1706dc4a5a693298f0115241d1085cc212364
+  Running setup.py bdist_wheel for pycrypto ... done
+  Stored in directory: /Users/pdurbin/Library/Caches/pip/wheels/96/b0/e6/03e439d41cb2592b5c4c9c77873761d6cbd417b332076680cd
+  Running setup.py bdist_wheel for MarkupSafe ... done
+  Stored in directory: /Users/pdurbin/Library/Caches/pip/wheels/94/a7/79/f79a998b64c1281cb99fa9bbd33cfc9b8b5775f438218d17a7
+Successfully built ansible PyYAML pycrypto MarkupSafe
+Installing collected packages: ecdsa, pycrypto, paramiko, MarkupSafe, jinja2, PyYAML, ansible
+Successfully installed MarkupSafe-0.23 PyYAML-3.11 ansible-2.0.1.0 ecdsa-0.13 jinja2-2.8 paramiko-1.16.0 pycrypto-2.6.1
+(ansible) Philips-MacBook-Pro:~ pdurbin$ 
+
+Last login: Thu Mar 17 12:19:38 on ttys023
+Philips-MacBook-Pro:~ pdurbin$ brew tap caskroom/cask
+==> Tapping caskroom/cask
+Cloning into '/usr/local/Library/Taps/caskroom/homebrew-cask'...
+remote: Counting objects: 3516, done.
+remote: Compressing objects: 100% (3461/3461), done.
+remote: Total 3516 (delta 55), reused 745 (delta 33), pack-reused 0
+Receiving objects: 100% (3516/3516), 5.91 MiB | 0 bytes/s, done.
+Resolving deltas: 100% (55/55), done.
+Checking connectivity... done.
+Tapped 1 formula (3,482 files, 13.4M)
+Philips-MacBook-Pro:~ pdurbin$ 
+
+
+Last login: Thu Mar 17 13:47:40 on ttys028
+Philips-MacBook-Pro:~ pdurbin$ brew tap caskroom/versions
+==> Tapping caskroom/versions
+Cloning into '/usr/local/Library/Taps/caskroom/homebrew-versions'...
+remote: Counting objects: 267, done.
+remote: Compressing objects: 100% (263/263), done.
+remote: Total 267 (delta 64), reused 32 (delta 1), pack-reused 0
+Receiving objects: 100% (267/267), 89.99 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (64/64), done.
+Checking connectivity... done.
+Tapped 0 formulae (283 files, 351.0K)
+Philips-MacBook-Pro:~ pdurbin$ 
+
+Last login: Thu Mar 17 13:50:14 on ttys029
+Philips-MacBook-Pro:~ pdurbin$ brew cask install java (1.8)
+-bash: syntax error near unexpected token `('
+Philips-MacBook-Pro:~ pdurbin$ 
+Philips-MacBook-Pro:~ pdurbin$ 
+Philips-MacBook-Pro:~ pdurbin$ brew cask install java '(1.8)'
+==> We need to make Caskroom for the first time at /opt/homebrew-cask/Caskroom
+==> We'll set permissions properly so we won't need sudo in the future
+Password:
+==> Caveats
+This Cask makes minor modifications to the JRE to prevent issues with
+packaged applications, as discussed here:
+
+  https://bugs.eclipse.org/bugs/show_bug.cgi?id=411361
+
+If your Java application still asks for JRE installation, you might need
+to reboot or logout/login.
+
+Installing this Cask means you have AGREED to the Oracle Binary Code
+License Agreement for Java SE at
+
+  http://www.oracle.com/technetwork/java/javase/terms/license/index.html
+
+==> Downloading http://download.oracle.com/otn-pub/java/jdk/8u74-b02/jdk-8u74-ma
+######################################################################## 100.0%
+==> Verifying checksum for Cask java
+==> Running installer for java; your password may be necessary.
+==> Package installers may write to any location; options such as --appdir are i
+==> installer: Package name is JDK 8 Update 74
+==> installer: Installing at base path /
+==> installer: The install was successful.
+🍺  java staged at '/opt/homebrew-cask/Caskroom/java/1.8.0_74-b02' (2 files, 227M)
+Error: No available Cask for (1.8)
+Error: install incomplete
+Philips-MacBook-Pro:~ pdurbin$ 
+
+
+Last login: Thu Mar 17 16:32:26 on ttys042
+Philips-MacBook-Pro:~ pdurbin$ cd github/bmckinney/dataverse-osx-playbook
+Philips-MacBook-Pro:dataverse-osx-playbook pdurbin$ workon ansible
+(ansible) Philips-MacBook-Pro:dataverse-osx-playbook pdurbin$ ansible-playbook main.yml --tags "start"
+ [WARNING]: provided hosts list is empty, only localhost is available
+
+
+PLAY ***************************************************************************
+
+TASK [setup] *******************************************************************
+ok: [localhost]
+
+TASK [include] *****************************************************************
+included: /Users/pdurbin/github/bmckinney/dataverse-osx-playbook/tasks/postgres.yml for localhost
+
+TASK [check if postgresql is loaded] *******************************************
+ok: [localhost]
+
+TASK [start postgresql luanchagent] ********************************************
+changed: [localhost]
+
+TASK [include] *****************************************************************
+included: /Users/pdurbin/github/bmckinney/dataverse-osx-playbook/tasks/solr.yml for localhost
+
+TASK [check if solr is loaded] *************************************************
+ok: [localhost]
+
+TASK [start solr luanchagent] **************************************************
+changed: [localhost]
+
+TASK [include] *****************************************************************
+included: /Users/pdurbin/github/bmckinney/dataverse-osx-playbook/tasks/glassfish.yml for localhost
+
+TASK [check if glassfish is loaded] ********************************************
+ok: [localhost]
+
+TASK [start glassfish luanchagent] *********************************************
+changed: [localhost]
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=10   changed=3    unreachable=0    failed=0   
+
+(ansible) Philips-MacBook-Pro:dataverse-osx-playbook pdurbin$ 
+
